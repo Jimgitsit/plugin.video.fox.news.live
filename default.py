@@ -9,7 +9,6 @@ POLLING_INTERVAL_SECONDS = 300
 URL = '87249' # Latest Videos
 
 # Global vars
-insertAtIndex = 0
 playListNames = []
 atEndOfPlaylist = False
 
@@ -60,7 +59,6 @@ def getItems(url):
     return match
 
 def doPolling(url):
-    global insertAtIndex
     global playListNames
     
     if( MyPlayer.polling == False ):
@@ -105,7 +103,6 @@ def doPolling(url):
     
 def play():
     global player
-    global insertAtIndex
     
     playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
     if playlist.size() > 0:
@@ -138,8 +135,6 @@ def startQueue(url):
         addCount += 1
     
     xbmc.log( "script.fox.news.live: Added " + str( addCount ) + " items to the playlist" )
-    
-    insertAtIndex = 0
 
 startQueue(URL)
 play()
