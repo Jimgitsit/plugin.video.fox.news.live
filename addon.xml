@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.fox.news.live"
+       name="Fox News Live"
+       version="0.1.1"
+       provider-name="rooster">
+    <requires>
+        <import addon="xbmc.python" version="1.0"/>
+    </requires>
+    <extension point="xbmc.python.script"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">Fox News Live</summary>
+        <description lang="en">This XBMC plugin automatically plays news videos from posted to the Fox News website.</description>
+    </extension>
+</addon>
