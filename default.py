@@ -32,7 +32,7 @@ class MyPlayer(xbmc.Player):
             if atEndOfPlaylist == True:
                 atEndOfPlaylist = False
                 xbmc.log( "script.fox.news.live: Restarting playlist" )
-                xbmc.sleep(100) # Let things catch up
+                xbmc.sleep(500) # Let things catch up
                 play()
 
 # Global player
