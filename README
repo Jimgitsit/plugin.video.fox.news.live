@@ -1,14 +1,12 @@
 To Install
 ==========
 
-1) Find your addons directory.
-	Windows: C:\Users\[JohnDoe]\AppData\Roaming\XBMC\addons
-	Linux: ~/.xbmc/addons
-	
-2) Create a directory called plugin.video.fox.news.live
+1) Download the zip file (FoxNewsLive.zip) from the link above.
 
-3) Drop the files from the github repo into the new directory.
+2) Extract the contents (directory plugin.video.fox.news.live) to the XBMC addons directory
+    Windows: C:\Users\[JohnDoe]\AppData\Roaming\XBMC\addons
+    Linux: ~/.xbmc/addons
 
-4) Restart XBMC.
+3) Restart XBMC.
 
-5) Go to Video add-ons and you should see Fox News Live.
+4) Go to Video add-ons and you should see Fox News Live.
