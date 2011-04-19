@@ -1,0 +1,7 @@
+<settings>
+   <setting id="inc_latest_news" type="bool" label="10000" default="true"/>
+   <setting id="inc_buisiness" type="bool" label="15000" default="true"/>
+   <setting id="inc_entertainment" type="bool" label="20000" default="true"/>
+   <setting id="inc_sports" type="bool" label="25000" default="true"/>
+   <setting id="inc_science_and_tech" type="bool" label="30000" default="true"/>
+</settings>
