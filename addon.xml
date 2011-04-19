@@ -13,6 +13,6 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary lang="en">Fox News Live</summary>
-        <description lang="en">This XBMC plugin automatically plays news videos from posted to the Fox News website.</description>
+        <description lang="en">This XBMC plugin automatically plays news videos from the Fox News website.</description>
     </extension>
 </addon>
