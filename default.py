@@ -1,8 +1,12 @@
-# test
+
 # Fox News Live - by Rooster
 
 import xbmcplugin,xbmcgui,xbmcaddon,time,urllib,urllib2,re,calendar,xml.sax.saxutils,random,sys
 from urllib2 import HTTPError, URLError
+try:
+    import json
+except:
+    import simplejson as json
 
 # Constants
 POLLING_INTERVAL_SECONDS = 300
@@ -11,15 +15,15 @@ POLLING_INTERVAL_SECONDS = 300
 urls = []
 __settings__ = xbmcaddon.Addon( id='plugin.video.fox.news.live' )
 if __settings__.getSetting( "inc_latest_news" ) == "true":
-    urls += [ '87185', '87249', '87485', '164000' ]
+    urls += [ '87249', '87485', '164000' ]
 if __settings__.getSetting( "inc_buisiness" ) == "true":
-    urls += [ '86883', '87013', '87061', '87308' ]
+    urls += [ '86883', '87308' ]
 if __settings__.getSetting( "inc_entertainment" ) == "true":
     urls += [ '86871', '87261' ]
 if __settings__.getSetting( "inc_sports" ) == "true":
     urls += [ '87484', '87857' ]
 if __settings__.getSetting( "inc_science_and_tech" ) == "true":
-    urls += [ '86861', '86976', '87019', '87079', '87090', '87264' ]
+    urls += [ '86861', '87264' ]
 
 # Start the progress dialog
 progress = xbmcgui.DialogProgress()
@@ -61,19 +65,34 @@ def zuluToLocalDateTime( zdate, ztime ):
     zuluDateTime = time.strptime( zdate + ' ' + ztime, "%m/%d/%Y %H:%M:%S" )
     zuluSec = calendar.timegm( zuluDateTime )
     localDateTime = time.localtime( zuluSec )
-    ltime = time.strftime( "%a %I:%M%p", localDateTime )
+    ltime = time.strftime( "%a %m/%d %I:%M%p", localDateTime )
     
     return ltime
-
+    
 def getItems( url ):
-    req = urllib2.Request( 'http://video.foxnews.com/v/feed/playlist/'+url+'.xml' )
+    req = urllib2.Request( 'http://video.foxnews.com/v/feed/playlist/'+url+'.js?' )
     req.add_header( 'User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14' )
+    req.add_header( 'Referer', 'http://video.foxnews.com' )
     try:
         response = urllib2.urlopen( req )
         link = response.read()
         response.close()
-        a = re.compile( '<title>(.+?)</title>\n          <media:content url="(.+?)">\n            <media:player url=".+?" />\n            <media:description>(.+?)</media:description>\n            <media:thumbnail><!\[\CDATA\[(.+?)]\]\></media:thumbnail>\n            <media:keywords>.+?</media:keywords>\n            <media:credit role=".+?" scheme=".+?">.+?</media:credit>\n            <mvn:assetUUID>.+?</mvn:assetUUID>\n            <mvn:mavenId></mvn:mavenId>\n            <mvn:creationDate>.+?</mvn:creationDate>\n            <mvn:airDate>(.+?)-(.+?)-(.+?)T(.+?)Z</mvn:airDate>\n' )
-        match = a.findall( link )
+        data = json.loads( link )
+        videos = data['channel']['item']
+        match = []
+        for video in videos:
+            name = video['media-content']['mvn-shortDescription']
+            desc = video['media-content']['media-description']
+            url = video['media-content']['mvn-fnc_mp4']
+            thumbnail = video['media-content']['media-thumbnail']
+            airDate = video['media-content']['mvn-airDate']
+            Year = airDate.split('-')[0]
+            Month = airDate.split('-')[1]
+            Day = airDate.split('-')[2].split('T')[0]
+            Time = airDate.split('T')[1].split('-')[0]
+            params = (name,url,desc,thumbnail,Year,Month,Day,Time)
+            match.append(params)
+        return match
     except HTTPError, code:
         match = []
         xbmc.log( "script.fox.news.live: " + str( code ) + "  url=" + url )
